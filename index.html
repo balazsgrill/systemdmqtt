@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <title>Systemd-MQTT</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+.unit {
+  border-width: 1px;
+  border-style: solid;
+  margin:5px;
+  line-height: 1.0;
+  padding: 1px;
+  vertical-align: middle;
+}
+.unit-running {
+  border-color: darkgreen;
+  color: darkgreen;
+  background-color: lightgreen;
+}
+.unit-stopped {
+  border-color: darkred;
+  color: darkred;
+  background-color: lightcoral;
+}
+.unit-paused {
+  border-color: darkgray;
+  color: darkgray;
+  background-color: lightgray;
+}
+.align-center {
+  ve;
+}
+</style>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="units.js"></script>
+<body class="w3-light-grey" id="root">
+  <!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container">
+    <h5>Dashboard</h5>
+  </div>
+  <div class="w3-bar-block">
+    <a  class="w3-bar-item w3-button w3-padding" v-bind:class="{ 'w3-blue': (selectedhost==host) }" v-for="host in hostnames"><i class="fa fa-server fa-fw"></i>  {{ host }}</a>
+  </div>
+</nav>
+
+<div class="w3-main" style="margin-left:300px;"><div class="w3-row-padding w3-margin-bottom">
+  <unit-card v-for="unit in units"
+    :id="unit.Name"
+    :title="unit.Name"
+    :status="unit.SubState"
+  ></unit-card>
+</div></div>
+
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            hostnames: [],
+            selectedhost: "",
+            units: []
+          }
+        }
+      })
+      app.component('unit-card', {
+        props: ['title', 'status'],
+        template: `<div class="w3-row unit" v-bind:class="{
+          'unit-stopped': (status=='exited' || status=='dead'),
+          'unit-running': (status=='active' || status=='plugged' || status=='mounted' || status=='running'),
+          'unit-paused': (status=='waiting' || status=='listening')
+        }">
+      <div class="w3-col m2 text-center">
+        <i class="fa w3-large" v-bind:class="{
+           'fa-stop': (status=='exited' || status=='dead'),
+           'fa-play': (status=='active' || status=='plugged' || status=='mounted' || status=='running'),
+           'fa-pause': (status=='waiting' || status=='listening')
+          }"></i>
+      </div>
+      <div class="w3-col m10 w3-container align-center">
+        {{ title }} - {{ status }}
+      </div></div>`
+      })
+      const vm = app.mount("#root")
+      const model = new SystemdModel((hostadded)=>{
+        vm.hostnames.push(hostadded)
+        if (vm.hostnames.length == 1) {
+          selectHost(vm.hostnames[0])
+        }
+      });
+      var selectedhostmodel = null;
+
+      function statuslistener(status, added) {
+        if (added) {
+          vm.units.push(status)
+        } else {
+          const ix = vm.units.findIndex((u)=>{u.Name==status.Name})
+          vm.units[ix] = status
+        }
+      }
+
+      function selectHost(host) {
+        vm.selectedhost = host
+        hostmodel = model.getHost(host)
+        if (selectedhostmodel) {
+          selectedhostmodel.statuslistener = null
+        }
+        hostmodel.statuslistener = statuslistener
+        vm.units = Array.from(hostmodel.units)
+      }
+    </script>
+  </body>
+</html>
