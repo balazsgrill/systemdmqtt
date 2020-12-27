@@ -58,7 +58,6 @@ jobs:
         file: "systemdmqtt_${{ steps.dotenv.outputs.version }}-${{ steps.current-time.outputs.formattedTime }}_armhf.deb"
         api_user: balazsgrill
         api_key: "${{ secrets.BINTRAY_APIKEY }}" # An API key can be obtained from the user profile page.
-        repository_user: balazsgrill
         repository: home
         package: systemdmqtt
         version: '${{ steps.dotenv.outputs.version }}-${{ steps.current-time.outputs.formattedTime }}'
@@ -76,7 +75,6 @@ jobs:
         file: "systemdmqtt_${{ steps.dotenv.outputs.version }}-${{ steps.current-time.outputs.formattedTime }}_armhf.deb"
         api_user: balazsgrill
         api_key: "${{ secrets.BINTRAY_APIKEY }}" # An API key can be obtained from the user profile page.
-        repository_user: balazsgrill
         repository: wscgo
         package: systemdmqtt
         version: '${{ steps.dotenv.outputs.version }}-${{ steps.current-time.outputs.formattedTime }}'
