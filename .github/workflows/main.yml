@@ -61,7 +61,7 @@ jobs:
         repository: home
         package: systemdmqtt
         version: '${{ steps.dotenv.outputs.version }}-${{ steps.current-time.outputs.formattedTime }}'
-        upload_path: pool/main/w # Typical for debian repository layout
+        upload_path: pool/main/s # Typical for debian repository layout
         publish: 1
         calculate_metadata: true # Schedule metadata calcuation after upload
         deb_distribution: unstable
@@ -78,7 +78,7 @@ jobs:
         repository: wscgo
         package: systemdmqtt
         version: '${{ steps.dotenv.outputs.version }}-${{ steps.current-time.outputs.formattedTime }}'
-        upload_path: pool/main/w # Typical for debian repository layout
+        upload_path: pool/main/s # Typical for debian repository layout
         publish: 1
         calculate_metadata: true # Schedule metadata calcuation after upload
         deb_distribution: unstable
