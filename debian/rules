@@ -4,7 +4,7 @@ clean:
 	rm -f systemdmqtt
 
 build:
-	go build -v -trimpath -o systemdmqtt ./cmd/systemdmqtt
+	go build -v -trimpath -o systemdmqtt .
 
 binary:
 	mkdir -p debian/systemdmqtt
