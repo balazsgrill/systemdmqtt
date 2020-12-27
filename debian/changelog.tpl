@@ -1,4 +1,4 @@
-wscgo (${VERSION}) UNRELEASED; urgency=medium
+systemdmqtt (${VERSION}) UNRELEASED; urgency=medium
 
   * Debian packaging
 
