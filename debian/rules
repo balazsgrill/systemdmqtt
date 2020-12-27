@@ -10,7 +10,10 @@ binary:
 	mkdir -p debian/systemdmqtt
 	mkdir -p debian/systemdmqtt/usr/bin
 	mkdir -p debian/systemdmqtt/etc/systemd/system
+    mkdir -p debian/systemdmqtt/usr/share/systemdmqtt
 	sudo cp systemdmqtt debian/systemdmqtt/usr/bin/
 	sudo cp systemdmqtt.service debian/systemdmqtt/etc/systemd/system/
+    sudo cp unit.js debian/systemdmqtt/usr/share/systemdmqtt/
+    sudo cp index.html debian/systemdmqtt/usr/share/systemdmqtt/
 	dh_gencontrol
 	dh_builddeb

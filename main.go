@@ -16,6 +16,7 @@ import (
 
 func main() {
 	broker := flag.String("b", "tcp://127.0.0.1:1883", "MQTT broker URL e.g. tcp://127.0.0.1:1883")
+	static := flag.String("s", ".", "Location of static files")
 	flag.Parse()
 
 	log.Println("Starting")
@@ -45,7 +46,7 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/events", eventserver.HTTPHandler)
-	mux.Handle("/", http.FileServer(http.Dir("./")))
+	mux.Handle("/", http.FileServer(http.Dir(*static+"/")))
 
 	go startMonitoringUnits(client)
 	log.Println(http.ListenAndServe(":8080", mux))
