@@ -1,0 +1,16 @@
+  
+#!/usr/bin/make -f
+clean:
+	rm -f systemdmqtt
+
+build:
+	go build -v -trimpath -o systemdmqtt ./cmd/systemdmqtt
+
+binary:
+	mkdir -p debian/systemdmqtt
+	mkdir -p debian/systemdmqtt/usr/bin
+	mkdir -p debian/systemdmqtt/etc/systemd/system
+	sudo cp systemdmqtt debian/systemdmqtt/usr/bin/
+	sudo cp systemdmqtt.service debian/systemdmqtt/etc/systemd/system/
+	dh_gencontrol
+	dh_builddeb

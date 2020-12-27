@@ -1,0 +1,9 @@
+[Unit]
+Description=systemdmqtt service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/systemdmqtt -b 127.0.0.1
+
+[Install]
+WantedBy=multi-user.target

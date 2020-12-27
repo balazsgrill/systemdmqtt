@@ -1,0 +1,12 @@
+Source: systemdmqtt
+Maintainer: Balázs Grill <balazs.grill@live.com>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 9)
+
+Package: systemdmqtt
+Architecture: any
+Depends:
+Description: Systemd-MQTT
+ Distributed monitoring systemd services via MQTT
